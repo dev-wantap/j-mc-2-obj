@@ -41,8 +41,16 @@ public class Options
 
 	/**
 	 * A list of available locales in the program.
-	 */	
-	public static Locale availableLocales[] = { Locale.ENGLISH, Locale.GERMAN, Locale.CHINESE, new Locale("pl"), Locale.JAPANESE, new Locale("ru"), new Locale("ko") };
+	 */
+	public static Locale[] availableLocales = {
+			Locale.ENGLISH,
+			Locale.GERMAN,
+			Locale.CHINESE,
+			new Locale("pl"),
+			Locale.JAPANESE,
+			new Locale("ru"),
+			Locale.KOREAN
+	};
 
 	/**
 	 * User interface mode.
