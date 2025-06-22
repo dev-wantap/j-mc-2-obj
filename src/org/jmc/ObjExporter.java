@@ -126,7 +126,8 @@ public class ObjExporter {
 			
 			int chunksToDo = (ce.x - cs.x + 1) * (ce.y - cs.y + 1);
 
-			ChunkDataBuffer chunk_buffer = new ChunkDataBuffer(Options.minX, Options.maxX, Options.minY,
+			// Use improved chunk buffer with smart caching and memory pooling
+			ImprovedChunkDataBuffer chunk_buffer = new ImprovedChunkDataBuffer(Options.minX, Options.maxX, Options.minY,
 					Options.maxY, Options.minZ, Options.maxZ);
 			
 			ThreadInputQueue inputQueue = new ThreadInputQueue();
@@ -198,6 +199,9 @@ public class ObjExporter {
 			
 			Log.debug("Writing File:" + (System.nanoTime() - objTimer2)/1000000000d);
 			Log.info("OBJ Export Time:" + (System.nanoTime() - objTimer)/1000000000d);
+			
+			// Log final performance statistics before cleanup
+			chunk_buffer.logPerformanceStats();
 			
 			chunk_buffer.removeAllChunks();
 
@@ -399,7 +403,9 @@ public class ObjExporter {
 			if (writeThread != null) {
 				writeThread.interrupt();
 			}
-			System.gc();
+			// Removed manual System.gc() call - let JVM manage GC automatically
+			// Modern GC algorithms handle memory management more efficiently
+			Log.debug("Export cleanup completed, memory management delegated to JVM");
 		}
 	}
 	
